@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Based on the official kiwi template: https://build.opensuse.org/package/view_file/openSUSE:Factory/openSUSE-MicroOS/openSUSE-MicroOS.kiwi?expand=1 -->
+<image schemaversion="7.2" name="openSUSE-MicroOS" displayname="openSUSE MicroOS">
+    <description type="system">
+        <author>openSUSE Project</author>
+        <contact>opensuse-factory@opensuse.org</contact>
+        <specification>openSUSE MicroOS</specification>
+    </description>
+    <preferences>
+        <version>16.0.0</version>
+        <packagemanager>zypper</packagemanager>
+        <rpm-excludedocs>true</rpm-excludedocs>
+        <locale>@REBASE_CURRENT_LOCALE@</locale>
+        <type
+            image="oem"
+            filesystem="btrfs"
+            firmware="uefi"
+            initrd_system="dracut"
+            installiso="true"
+            bootpartition="false"
+            bootkernel="custom"
+            devicepersistency="by-uuid"
+            btrfs_root_is_snapshot="true"
+            btrfs_root_is_readonly_snapshot="true"
+            btrfs_quota_groups="true"
+        >
+            <bootloader name="grub2" console="gfxterm" />
+            <systemdisk>
+                <volume name="home"/>
+                <volume name="root"/>
+                <volume name="tmp"/>
+                <volume name="opt"/>
+                <volume name="srv"/>
+                <volume name="boot/grub2/i386-pc"/>
+                <volume name="boot/grub2/x86_64-efi" mountpoint="boot/grub2/x86_64-efi"/>
+                <volume name="boot/writable"/>
+                <volume name="usr/local"/>
+                <volume name="var" copy_on_write="false"/>
+            </systemdisk>
+            <oemconfig>
+                <oem-device-filter>/dev/ram</oem-device-filter>
+                <oem-multipath-scan>false</oem-multipath-scan>
+            </oemconfig>
+            <machine memory="512" guestOS="suse" HWversion="4">
+                <vmdisk id="0" controller="ide"/>
+                <vmnic driver="e1000" interface="0" mode="bridged"/>
+            </machine>
+        </type>
+    </preferences>
+    <packages type="image">
+        <package name="live-add-yast-repos"/>
+        <!-- Apparently zypper (?) doesn't like having multiple patterns with the same name,
+             so avoid using namedCollection at least for basesystem -->
+        <package name="patterns-microos-basesystem"/>
+        <package name="patterns-microos-base-zypper"/>
+        <package name="patterns-microos-defaults"/>
+        <package name="patterns-microos-selinux"/>
+        <package name="kernel-default"/>
+        <!-- Make it easier to add encryption later, like with https://github.com/lnussel/addimageencryption -->
+        <package name="device-mapper"/>
+        <package name="cryptsetup"/>
+        <package name="patterns-base-bootloader"/>
+        <package name="patterns-microos-hardware"/>
+        <package name="dracut-kiwi-oem-repart"/>
+        <package name="dracut-kiwi-oem-dump"/>
+        <package name="kernel-firmware-all"/> <!-- Fix choice between kernel-firmware and kernel-firmware-all -->
+    </packages>
+    <packages type="bootstrap">
+        <!-- Avoid that zypper picks the busybox-foo variant for those, that would fail later -->
+        <package name="coreutils"/>
+        <package name="which"/>
+        <package name="gawk"/>
+        <package name="gzip"/>
+        <package name="hostname"/>
+        <!-- Avoid libressl -->
+        <package name="openssl"/>
+
+        <package name="filesystem"/>
+        <package name="glibc-locale-base"/>
+        <!-- So that https repos work for image package downloads -->
+        <package name="ca-certificates-mozilla"/>
+        <!-- TODO: Use the proper flavors once available -->
+        <package name="MicroOS-release-dvd"/>
+    </packages>
+</image>
