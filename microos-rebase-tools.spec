@@ -41,6 +41,8 @@ make install DESTDIR=%{buildroot}
 
 %files
 %defattr(-,root,root)
+%doc README.md
+%license LICENCE
 %{_sbindir}/microos-rebase
 %dir /usr/lib/%{name}
 /usr/lib/%{name}/*
