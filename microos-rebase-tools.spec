@@ -18,13 +18,13 @@
 #
 
 Name:           microos-rebase-tools
-Version:        0.0.2
+Version:        0.0.3
 Release:        0
 License:        GPL-2.0+
 Summary:        Tools to aid rebasing of MicroOS installations
 Source0:        %{name}-%version.tar.xz
 BuildRequires:  make
-Requires:       etcrebase
+Requires:       python3-etcrebase
 Requires:       python3-kiwi
 Requires:       podman
 
