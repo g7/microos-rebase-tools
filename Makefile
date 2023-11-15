@@ -2,7 +2,7 @@ DESTDIR ?= /
 
 all: install
 
-install: src/lib/*.sh src/microos-rebase.sh
+install: src/lib/*.sh src/data/* src/microos-rebase.sh
 	install -d $(DESTDIR)/usr/lib
 	install -d $(DESTDIR)/usr/lib/microos-rebase-tools
 	install -d $(DESTDIR)/usr/lib/microos-rebase-tools/src
