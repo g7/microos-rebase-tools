@@ -18,7 +18,7 @@
 #
 
 Name:           microos-rebase-tools
-Version:        0.0.3
+Version:        0.0.4
 Release:        0
 License:        GPL-2.0+
 Summary:        Tools to aid rebasing of MicroOS installations
