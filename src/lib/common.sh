@@ -64,8 +64,9 @@ overlay_create() {
 		snapshot_id=${TARGET_DIR/\/.snapshots\//}
 		snapshot_id=${snapshot_id/\/snapshot}
 
-		[ -n "${snapshot_id}" ] && \
-			mkdir -p /var/lib/overlay/${snapshot_id}/etc /var/lib/overlay/${snapshot_id}/work-etc || \
-			true
+		if [ -n "${snapshot_id}" ]; then
+			mkdir -p /var/lib/overlay/${snapshot_id}/etc /var/lib/overlay/${snapshot_id}/work-etc
+			cp "${TARGET_DIR}/etc/fstab" /var/lib/overlay/${snapshot_id}/etc/fstab
+		fi
 	fi
 }
